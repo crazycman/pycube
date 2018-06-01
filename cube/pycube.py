@@ -107,25 +107,24 @@ def get_cards_from_json(file="resources/modern-cube.json"):
     return json.loads(cards_str)
 
 
-def card_img_uri(card):
-    if card.__contains__("card_faces"):
-        return list(map(card_img_uri, card.get("card_faces")))
+def card_img_uri(card, img_type="art_crop"):
+    if card.__contains__("image_uris"):
+        return [card.get("image_uris").get(img_type)]
     else:
-        return [card.get("image_uris")]
+        return flatten(list(map(card_img_uri, card.get("card_faces"))))
+
+
+def flatten(xs):
+    return [item for sublist in xs for item in sublist]
 
 
 def get_card_image_uris(cards):
     return list(map(lambda x: (x.get("name"), card_img_uri(x)), cards))
 
 
-def f():
-    cards = get_card_image_uris(get_cards_from_json())
-    img_uris = []
-    for (name, uris) in cards:
-        if uris is None:
-            print("Error: Card {} has no images ".format(name))
-        else:
-            print(name)
-            print(uris) # this might be a list of lists, which produces an error in the next line
-            print(list(map(lambda x: x.get("normal"), uris)))
-    return img_uris
+def get_card_img_uris(url):
+    req = requests.get(url, stream=True)
+    if req.status_code == 200:
+        with open("the_image.jpg", "wb") as f:
+            req.raw.decode_content = True
+            shutil.copyfileobj(req.raw, f)
