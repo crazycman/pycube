@@ -36,9 +36,9 @@ def get_card_scry(parameters, wait=False):
     """
     if wait:
         sleep(0.1)
-    json = requests.get("https://api.scryfall.com/cards/named", params=parameters).json()
-    print("{}".format(json.get("name")))
-    return json
+    response = requests.get("https://api.scryfall.com/cards/named", params=parameters).json()
+    print("{}".format(response.get("name")))
+    return response
 
 
 def get_cards_scry(card_names):
@@ -46,6 +46,9 @@ def get_cards_scry(card_names):
 
 
 def get_modern_cube_cards():
+    """
+    :return: List of Cards as JSON.
+    """
     card_names = read_cards_file("resources/modern-cube.txt").split(sep='\n')
     return get_cards_scry(card_names)
 
@@ -109,22 +112,32 @@ def get_cards_from_json(file="resources/modern-cube.json"):
 
 def card_img_uri(card, img_type="art_crop"):
     if card.__contains__("image_uris"):
-        return [card.get("image_uris").get(img_type)]
+        return [(card.get("name"), card.get("image_uris").get(img_type))]
     else:
         return flatten(list(map(card_img_uri, card.get("card_faces"))))
+
+
+def get_card_image_uris(cards):
+    return flatten(list(map(card_img_uri, cards)))
+
+
+def download_card_img(name, url):
+    print("Downloading {}".format(name))
+    req = requests.get(url, stream=True)
+    if req.status_code == 200:
+        with open("resources/pics/{}.jpg".format(name), "wb") as f:
+            req.raw.decode_content = True
+            shutil.copyfileobj(req.raw, f)
+
+
+def download_card_imgs(wait=True):
+    cards_and_uris = get_card_image_uris(get_cards_from_json())
+    for (name, url) in cards_and_uris:
+        if wait:
+            sleep(0.1)
+        download_card_img(name, url)
 
 
 def flatten(xs):
     return [item for sublist in xs for item in sublist]
 
-
-def get_card_image_uris(cards):
-    return list(map(lambda x: (x.get("name"), card_img_uri(x)), cards))
-
-
-def get_card_img_uris(url):
-    req = requests.get(url, stream=True)
-    if req.status_code == 200:
-        with open("the_image.jpg", "wb") as f:
-            req.raw.decode_content = True
-            shutil.copyfileobj(req.raw, f)
