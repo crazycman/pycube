@@ -6,27 +6,6 @@ import shutil
 import json
 
 
-def get_abbot():
-    p = {"exact": "Abbot of Keral Keep"}  # fuzzy
-    r = requests.get("https://api.scryfall.com/cards/named", params=p)
-    print(r.url)
-    # r.status_code
-    # r.text
-    s = r.json()
-    imgs = s.get("image_uris")
-    # print(imgs)
-    art_url = imgs.get("art_crop")
-    art_req = requests.get(art_url, stream=True)
-    if art_req.status_code == 200:
-        with open("the_image.jpg", "wb") as f:
-            art_req.raw.decode_content = True
-            shutil.copyfileobj(art_req.raw, f)
-
-
-# save image see https://stackoverflow.com/questions/13137817/how-to-download-image-using-request
-# search for a named card
-# https://api.scryfall.com/cards/named?fuzzy=aust+com
-
 def get_card_scry(parameters, wait=False):
     """
     Query the scryfall API for a specific card.
@@ -47,7 +26,7 @@ def get_cards_scry(card_names):
 
 def get_modern_cube_cards():
     """
-    :return: List of Cards as JSON.
+    :return: List of cards as JSON.
     """
     card_names = read_cards_file("resources/modern-cube.txt").split(sep='\n')
     return get_cards_scry(card_names)
@@ -56,6 +35,7 @@ def get_modern_cube_cards():
 def get_modern_cube_cards_scry() -> List[object]:
     """
     Get all the cards in the Modern Cube via the scryfall API
+    :return List of cards as JSON.p
     """
     # https://api.scryfall.com/cards/search?q=cube%3Amodern
     url = "https://api.scryfall.com/cards/search"  # type: str
@@ -68,10 +48,10 @@ def get_modern_cube_cards_scry() -> List[object]:
 def get_card_list_scry(url: str, f, parameters: Dict[str, str] = {}, found: List[object] = []) -> List[object]:
     """
     Recursive rest call to srcyfall API, paging through multiple result pages.
-    :param url:
-    :param f:
-    :param parameters:
-    :param found:
+    :param url: URL to send the rest request to.
+    :param f: Function to apply to the request result (e.g. convert list of JSON to list of string)
+    :param parameters: Query parameters.
+    :param found: List of already processed (i.e. found) results.
     :return:
     """
     req = requests.get(url, params=parameters)
@@ -90,7 +70,7 @@ def get_card_list_scry(url: str, f, parameters: Dict[str, str] = {}, found: List
 def get_card_names(cards):
     """
     :param cards: List of card JSONs.
-    :return:
+    :return: List of card names (str).
     """
     names = []
     for card in cards:
@@ -111,6 +91,9 @@ def get_cards_from_json(file="resources/modern-cube.json"):
 
 
 def card_img_uri(card, img_type="art_crop"):
+    # if card.get("layout") == "split":
+    #     print("Skip split card: {}".format(card.get("name")))
+    #     return []
     if card.__contains__("image_uris"):
         return [(card.get("name"), card.get("image_uris").get(img_type))]
     else:
@@ -122,10 +105,10 @@ def get_card_image_uris(cards):
 
 
 def download_card_img(name, url):
-    print("Downloading {}".format(name))
+    print("Downloading: {}".format(name))
     req = requests.get(url, stream=True)
     if req.status_code == 200:
-        with open("resources/pics/{}.jpg".format(name), "wb") as f:
+        with open("resources/pics/{}.jpg".format(name.replace('//', '-')), "wb") as f:
             req.raw.decode_content = True
             shutil.copyfileobj(req.raw, f)
 
