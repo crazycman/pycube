@@ -91,9 +91,6 @@ def get_cards_from_json(file="resources/modern-cube.json"):
 
 
 def card_img_uri(card, img_type="art_crop"):
-    # if card.get("layout") == "split":
-    #     print("Skip split card: {}".format(card.get("name")))
-    #     return []
     if card.__contains__("image_uris"):
         return [(card.get("name"), card.get("image_uris").get(img_type))]
     else:
