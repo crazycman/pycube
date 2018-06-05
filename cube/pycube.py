@@ -1,10 +1,10 @@
 from time import sleep
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 import requests
 import shutil
 import json
-
+import functools
 
 def get_card_scry(parameters, wait=False):
     """
@@ -86,19 +86,31 @@ def read_cards_file(file):
 
 
 def get_cards_from_json(file="resources/modern-cube.json"):
+    """
+    Given a path to a JSON file, load the file and decode it.
+    :param file: Path to JSON file that contains cards.
+    :return: List of JSONs (which represent cards)
+    """
     cards_str = read_cards_file(file)
     return json.loads(cards_str)
 
 
-def card_img_uri(card, img_type="art_crop"):
+def card_img_uri(card, img_type="art_crop") -> List[Tuple[str, str]]:
+    """
+    Given a card (as JSON) return a list of tuples with the card names and image URIs.
+    List are returned because of of flip ans split cards.
+    :param card: Card as JSON
+    :param img_type: String in ["large", "normal", "png", "border_crop", "art_crop", "small"]
+    :return: List of tuples (card_name, image_uri)
+    """
     if card.__contains__("image_uris"):
         return [(card.get("name"), card.get("image_uris").get(img_type))]
     else:
-        return flatten(list(map(card_img_uri, card.get("card_faces"))))
+        return concat(list(map(card_img_uri, card.get("card_faces"))))
 
 
-def get_card_image_uris(cards):
-    return flatten(list(map(card_img_uri, cards)))
+def get_card_image_uris(cards) -> List[Tuple[str, str]]:
+    return concat(list(map(card_img_uri, cards)))
 
 
 def download_card_img(name, url):
@@ -111,6 +123,11 @@ def download_card_img(name, url):
 
 
 def download_card_imgs(wait=True):
+    """
+    Call this procedure to download all the images of cards that have image URIS in the JSON file.
+    :param wait:
+    :return:
+    """
     cards_and_uris = get_card_image_uris(get_cards_from_json())
     for (name, url) in cards_and_uris:
         if wait:
@@ -118,6 +135,7 @@ def download_card_imgs(wait=True):
         download_card_img(name, url)
 
 
-def flatten(xs):
-    return [item for sublist in xs for item in sublist]
+def concat(xs):
+    # return [item for sublist in xs for item in sublist]
+    return functools.reduce(lambda x, y: x + y, xs, [])
 
