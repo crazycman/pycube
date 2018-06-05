@@ -6,6 +6,7 @@ import shutil
 import json
 import functools
 
+
 def get_card_scry(parameters, wait=False):
     """
     Query the scryfall API for a specific card.
@@ -15,27 +16,36 @@ def get_card_scry(parameters, wait=False):
     """
     if wait:
         sleep(0.1)
-    response = requests.get("https://api.scryfall.com/cards/named", params=parameters).json()
-    print("{}".format(response.get("name")))
-    return response
+    req = requests.get("https://api.scryfall.com/cards/named", params=parameters)
+    if req.status_code == 200:
+        response = req.json()
+        print("Receive response for: {}".format(response.get("name")))
+        return response
+    else:
+        raise ValueError(req.text)
 
 
+# TODO enable set specific parameter, e.g. {'set': "LRW"} to get the right images
+# (split and strip on string might help)
 def get_cards_scry(card_names):
     return list(map(lambda x: get_card_scry({"fuzzy": x}, True), card_names))
 
 
-def get_modern_cube_cards():
+def get_modern_cube_cards(card_list="resources/modern-cube.txt"):
     """
-    :return: List of cards as JSON.
+    :param card_list: Path to a list of card names
+    :return: List of cards as JSON
     """
-    card_names = read_cards_file("resources/modern-cube.txt").split(sep='\n')
+    card_names = read_cards_file(card_list).split(sep='\n')
     return get_cards_scry(card_names)
 
 
+# -----------------------------------------------------------------------------
+# list of cards in the modern cube based on the scryfall curated list
 def get_modern_cube_cards_scry() -> List[object]:
     """
     Get all the cards in the Modern Cube via the scryfall API
-    :return List of cards as JSON.p
+    :return List of cards as JSON
     """
     # https://api.scryfall.com/cards/search?q=cube%3Amodern
     url = "https://api.scryfall.com/cards/search"  # type: str
@@ -48,10 +58,10 @@ def get_modern_cube_cards_scry() -> List[object]:
 def get_card_list_scry(url: str, f, parameters: Dict[str, str] = {}, found: List[object] = []) -> List[object]:
     """
     Recursive rest call to srcyfall API, paging through multiple result pages.
-    :param url: URL to send the rest request to.
+    :param url: URL to send the rest request to
     :param f: Function to apply to the request result (e.g. convert list of JSON to list of string)
-    :param parameters: Query parameters.
-    :param found: List of already processed (i.e. found) results.
+    :param parameters: Query parameters
+    :param found: List of already processed (i.e. found) results
     :return:
     """
     req = requests.get(url, params=parameters)
@@ -69,26 +79,21 @@ def get_card_list_scry(url: str, f, parameters: Dict[str, str] = {}, found: List
 
 def get_card_names(cards):
     """
-    :param cards: List of card JSONs.
-    :return: List of card names (str).
+    :param cards: List of card JSONs
+    :return: List of card names (str)
     """
     names = []
     for card in cards:
         name = card.get("name")
         names.append(name)
     return names
-
-
-def read_cards_file(file):
-    contents = open(file).read()  # type: str
-    # contents.split(sep='\n')
-    return contents
+# -----------------------------------------------------------------------------
 
 
 def get_cards_from_json(file="resources/modern-cube.json"):
     """
     Given a path to a JSON file, load the file and decode it.
-    :param file: Path to JSON file that contains cards.
+    :param file: Path to JSON file that contains cards
     :return: List of JSONs (which represent cards)
     """
     cards_str = read_cards_file(file)
@@ -139,3 +144,8 @@ def concat(xs):
     # return [item for sublist in xs for item in sublist]
     return functools.reduce(lambda x, y: x + y, xs, [])
 
+
+def read_cards_file(file):
+    contents = open(file).read()  # type: str
+    # contents.split(sep='\n')
+    return contents
