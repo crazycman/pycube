@@ -6,19 +6,26 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 
-# TODO use 'imagehash.hex_to_hash' to convert the hexstr back to hashes (two dimensional binary arrays)
-# hash_imgs(glob.glob("resources/some-pics/*.jpg"))
+def call_hash_img():
+    return hash_imgs(glob.glob("resources/some-pics/*.jpg"))
+
+
 def hash_imgs(img_paths):
-    # hashes = list(map(lambda img: imagehash.average_hash(Image.open(img)), img_paths))
-    hashes = list(map(lambda img: str(imagehash.average_hash(Image.open(img))), img_paths))
-    for h in hashes:
-        print(h)
-    return dict(zip(hashes, map(get_img_name_from_path, img_paths)))
+    hashes = list(map(lambda img: imagehash.average_hash(Image.open(img)), img_paths))
+    names = map(get_img_name_from_path, img_paths)
+    return dict(zip(hashes, names))
 
 
 def get_img_name_from_path(img_path):
     img_name = img_path.split("/")[-1]
     return img_name.split(".")[0]
+
+
+# TODO use 'imagehash.hex_to_hash' to convert the hexstr back to hashes (two dimensional binary arrays)
+def img_hash_dict_to_json(img_hash_dict):
+    # convert the key hashes to hex strings for json encoding
+    d = {str(k): v for (k, v) in img_hash_dict.items()}
+    return json.dumps(d, sort_keys=True, indent=4)
 
 
 def some_test():
