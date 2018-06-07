@@ -44,7 +44,8 @@ def get_modern_cube_cards(card_list="resources/modern-cube.txt"):
 
 
 # -----------------------------------------------------------------------------
-# list of cards in the modern cube based on the scryfall curated list
+# Get cards (as json list) in the modern cube based on the scryfall curated list
+
 def get_modern_cube_cards_scry() -> List[object]:
     """
     Get all the cards in the Modern Cube via the scryfall API
@@ -93,14 +94,22 @@ def get_card_names(cards):
 # -----------------------------------------------------------------------------
 
 
-def get_cards_from_json(file="resources/modern-cube.json"):
+# -----------------------------------------------------------------------------
+# Download card images
+
+
+def download_card_imgs(path="resources/pics/", wait=True):
     """
-    Given a path to a JSON file, load the file and decode it.
-    :param file: Path to JSON file that contains cards
-    :return: List of JSONs (which represent cards)
+    Call this procedure to download all the images of cards that have image URIS in the JSON file.
+    :param path: Path to store the pictures
+    :param wait:
+    :return:
     """
-    cards_str = read_cards_file(file)
-    return json.loads(cards_str)
+    cards_and_uris = get_card_image_uris(get_cards_from_json())
+    for (name, url) in cards_and_uris:
+        if wait:
+            sleep(0.1)
+        download_card_img(name, url, path)
 
 
 def card_img_uri(card, img_type="art_crop") -> List[Tuple[str, str]]:
@@ -131,18 +140,18 @@ def download_card_img(name, url, path="resources/pics/"):
             shutil.copyfileobj(req.raw, f)
 
 
-def download_card_imgs(path="resources/pics/", wait=True):
+# -----------------------------------------------------------------------------
+# General helper functions
+# TODO move them to a general module
+
+def get_cards_from_json(file="resources/modern-cube.json"):
     """
-    Call this procedure to download all the images of cards that have image URIS in the JSON file.
-    :param path: Path to store the pictures
-    :param wait:
-    :return:
+    Given a path to a JSON file, load the file and decode it.
+    :param file: Path to JSON file that contains cards
+    :return: List of JSONs (which represent cards)
     """
-    cards_and_uris = get_card_image_uris(get_cards_from_json())
-    for (name, url) in cards_and_uris:
-        if wait:
-            sleep(0.1)
-        download_card_img(name, url, path)
+    cards_str = read_cards_file(file)
+    return json.loads(cards_str)
 
 
 def concat(xs):
