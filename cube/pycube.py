@@ -7,7 +7,7 @@ import json
 import functools
 
 
-def get_card_scry(parameters, wait=False):
+def get_card_scry(parameters, wait=True):
     """
     Query the scryfall API for a specific card.
     :param wait: Set to True, to insert a wait before a request; see https://api.scryfall.com/docs/api
@@ -25,10 +25,13 @@ def get_card_scry(parameters, wait=False):
         raise ValueError(req.text)
 
 
-# TODO enable set specific parameter, e.g. {'set': "LRW"} to get the right images
-# (split and strip on string might help)
-def get_cards_scry(card_names):
-    return list(map(lambda x: get_card_scry({"fuzzy": x}, True), card_names))
+def get_cards_scry(card_names: List[str]):
+    return list(map(get_card_scry, map(create_q_param, card_names)))
+
+
+def create_q_param(card_name: str) -> Dict[str, object]:
+    card_info = map(lambda x: x.strip(), card_name.split(":"))
+    return dict(zip(["fuzzy", "set"], card_info))
 
 
 def get_modern_cube_cards(card_list="resources/modern-cube.txt"):
@@ -103,7 +106,7 @@ def get_cards_from_json(file="resources/modern-cube.json"):
 def card_img_uri(card, img_type="art_crop") -> List[Tuple[str, str]]:
     """
     Given a card (as JSON) return a list of tuples with the card names and image URIs.
-    List are returned because of of flip ans split cards.
+    List are returned because of of flip and split cards.
     :param card: Card as JSON
     :param img_type: String in ["large", "normal", "png", "border_crop", "art_crop", "small"]
     :return: List of tuples (card_name, image_uri)
@@ -118,18 +121,20 @@ def get_card_image_uris(cards) -> List[Tuple[str, str]]:
     return concat(list(map(card_img_uri, cards)))
 
 
-def download_card_img(name, url):
+def download_card_img(name, url, path="resources/pics/"):
     print("Downloading: {}".format(name))
     req = requests.get(url, stream=True)
     if req.status_code == 200:
-        with open("resources/pics/{}.jpg".format(name.replace('//', '-')), "wb") as f:
+        # TODO image name should be: card_name_set.jpg
+        with open("{}{}.jpg".format(path, name.replace('//', '-')), "wb") as f:
             req.raw.decode_content = True
             shutil.copyfileobj(req.raw, f)
 
 
-def download_card_imgs(wait=True):
+def download_card_imgs(path="resources/pics/", wait=True):
     """
     Call this procedure to download all the images of cards that have image URIS in the JSON file.
+    :param path: Path to store the pictures
     :param wait:
     :return:
     """
@@ -137,7 +142,7 @@ def download_card_imgs(wait=True):
     for (name, url) in cards_and_uris:
         if wait:
             sleep(0.1)
-        download_card_img(name, url)
+        download_card_img(name, url, path)
 
 
 def concat(xs):
@@ -146,6 +151,14 @@ def concat(xs):
 
 
 def read_cards_file(file):
+    """
+    The syntax supported in the card list is:
+    Card Name : Set (abbreviation), e.g.
+    Cryptic Command : LRW
+    see function 'create_q_param' above.
+    :param file:
+    :return: File contents as string
+    """
     contents = open(file).read()  # type: str
     # contents.split(sep='\n')
-    return contents
+    return contents.strip()
