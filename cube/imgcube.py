@@ -23,7 +23,7 @@ def get_img_name_from_path(img_path):
 
 # TODO use 'imagehash.hex_to_hash' to convert the hexstr back to hashes (two dimensional binary arrays)
 def img_hash_dict_to_json(img_hash_dict):
-    # convert the key hashes to hex strings for json encoding
+    # convert the key hashes to hex strings for JSON encoding
     d = {str(k): v for (k, v) in img_hash_dict.items()}
     return json.dumps(d, sort_keys=True, indent=4)
 

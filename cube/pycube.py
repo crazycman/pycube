@@ -7,6 +7,15 @@ import json
 import functools
 
 
+def get_modern_cube_cards(card_list="resources/modern-cube.txt"):
+    """
+    :param card_list: Path to a list of card names
+    :return: List of cards (cards are JSONs)
+    """
+    card_names = read_cards_file(card_list).split(sep='\n')
+    return get_cards_scry(card_names)
+
+
 def get_card_scry(parameters, wait=True):
     """
     Query the scryfall API for a specific card.
@@ -34,17 +43,8 @@ def create_q_param(card_name: str) -> Dict[str, object]:
     return dict(zip(["fuzzy", "set"], card_info))
 
 
-def get_modern_cube_cards(card_list="resources/modern-cube.txt"):
-    """
-    :param card_list: Path to a list of card names
-    :return: List of cards as JSON
-    """
-    card_names = read_cards_file(card_list).split(sep='\n')
-    return get_cards_scry(card_names)
-
-
 # -----------------------------------------------------------------------------
-# Get cards (as json list) in the modern cube based on the scryfall curated list
+# Get cards (as JSON list) in the modern cube based on the scryfall curated list
 
 def get_modern_cube_cards_scry() -> List[object]:
     """
