@@ -91,25 +91,25 @@ def get_card_names(cards):
         name = card.get("name")
         names.append(name)
     return names
-# -----------------------------------------------------------------------------
 
 
 # -----------------------------------------------------------------------------
 # Download card images
 
 
-def download_card_imgs(path="resources/pics/", wait=True):
+def download_card_imgs(save_path="resources/pics/", wait=True):
     """
     Call this procedure to download all the images of cards that have image URIS in the JSON file.
-    :param path: Path to store the pictures
+    :param save_path: Path to store the pictures
     :param wait:
-    :return:
+    :return: Nothing, as a side effect all the card images are stored
     """
-    cards_and_uris = get_card_image_uris(get_cards_from_json())
+    # TODO replace decode_json_file() with parameter (list_of_cards)
+    cards_and_uris = get_card_image_uris(decode_json_file())
     for (name, url) in cards_and_uris:
         if wait:
             sleep(0.1)
-        download_card_img(name, url, path)
+        download_card_img(name, url, save_path)
 
 
 def card_img_uri(card, img_type="art_crop") -> List[Tuple[str, str]]:
@@ -130,12 +130,12 @@ def get_card_image_uris(cards) -> List[Tuple[str, str]]:
     return concat(list(map(card_img_uri, cards)))
 
 
-def download_card_img(name, url, path="resources/pics/"):
+def download_card_img(name, url, save_path="resources/pics/"):
     print("Downloading: {}".format(name))
     req = requests.get(url, stream=True)
     if req.status_code == 200:
         # TODO image name should be: card_name_set.jpg
-        with open("{}{}.jpg".format(path, name.replace('//', '-')), "wb") as f:
+        with open("{}{}.jpg".format(save_path, name.replace('//', '-')), "wb") as f:
             req.raw.decode_content = True
             shutil.copyfileobj(req.raw, f)
 
@@ -144,7 +144,7 @@ def download_card_img(name, url, path="resources/pics/"):
 # General helper functions
 # TODO move them to a general module
 
-def get_cards_from_json(file="resources/modern-cube.json"):
+def decode_json_file(file="resources/modern-cube.json"):
     """
     Given a path to a JSON file, load the file and decode it.
     :param file: Path to JSON file that contains cards
