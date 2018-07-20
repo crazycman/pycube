@@ -7,7 +7,23 @@ import json
 import functools
 
 
-def get_modern_cube_cards(card_list="resources/modern-cube.txt"):
+def save_json_card_list(file, card_list="resources/some-cards.txt"):
+    """
+    Query the srcyfall API for a list of cards and
+    save the returned list of (formatted) JSON card descriptions in a file.
+    :param file: Path of the JSON file to save the cards
+    :param card_list: List of card names
+    :return: Nothing
+    """
+    write_to_file(file, get_json_card_list_formatted(card_list))
+
+
+def get_json_card_list_formatted(card_list="resources/some-cards.txt"):
+    card_list = get_json_card_list(card_list)
+    return json.dumps(card_list, indent=2)
+
+
+def get_json_card_list(card_list="resources/modern-cube.txt"):
     """
     Given a list of card names (with set specification, e.g. Cryptic Command : LRW),
     query the scryfall API for the JSON representation of the cards and return them in a list.
@@ -36,7 +52,7 @@ def get_card_scry(parameters, wait=True):
         raise ValueError(req.text)
 
 
-def get_cards_scry(card_names: List[str]):
+def get_cards_scry(card_names: List[str]) -> list:
     """
     :param card_names: as list of strings.
     :return: List of cards as JSON, can be saved
@@ -177,3 +193,8 @@ def read_cards_file(file):
     contents = open(file).read()  # type: str
     # contents.split(sep='\n')
     return contents.strip()
+
+
+def write_to_file(file, content):
+    with open(file, 'w') as the_file:
+        the_file.write(content)
