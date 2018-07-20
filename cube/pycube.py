@@ -9,6 +9,8 @@ import functools
 
 def get_modern_cube_cards(card_list="resources/modern-cube.txt"):
     """
+    Given a list of card names (with set specification, e.g. Cryptic Command : LRW),
+    query the scryfall API for the JSON representation of the cards and return them in a list.
     :param card_list: Path to a list of card names
     :return: List of cards (cards are JSONs)
     """
@@ -35,6 +37,10 @@ def get_card_scry(parameters, wait=True):
 
 
 def get_cards_scry(card_names: List[str]):
+    """
+    :param card_names: as list of strings.
+    :return: List of cards as JSON, can be saved
+    """
     return list(map(get_card_scry, map(create_q_param, card_names)))
 
 
@@ -101,8 +107,8 @@ def download_card_imgs(save_path="resources/pics/", wait=True):
     """
     Call this procedure to download all the images of cards that have image URIS in the JSON file.
     :param save_path: Path to store the pictures
-    :param wait:
-    :return: Nothing, as a side effect all the card images are stored
+    :param wait: Set this to true, to insert a 1/10 sec wait between queries (to respect scryfall etiquette).
+    :return: Nothing, as a side effect all the card images are stored.
     """
     # TODO replace decode_json_file() with parameter (list_of_cards)
     cards_and_uris = get_card_image_uris(decode_json_file())
@@ -134,7 +140,7 @@ def download_card_img(name, url, save_path="resources/pics/"):
     print("Downloading: {}".format(name))
     req = requests.get(url, stream=True)
     if req.status_code == 200:
-        # TODO image name should be: card_name_set.jpg
+        # TODO image name should be: card_name_set.jpg?
         with open("{}{}.jpg".format(save_path, name.replace('//', '-')), "wb") as f:
             req.raw.decode_content = True
             shutil.copyfileobj(req.raw, f)
