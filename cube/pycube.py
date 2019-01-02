@@ -34,7 +34,7 @@ def get_json_card_list(card_list="resources/modern-cube.txt"):
     return get_cards_scry(card_names)
 
 
-def get_card_scry(parameters, wait=True):
+def get_card_scry(parameters, wait=True, verbose=False):
     """
     Query the scryfall API for a specific card.
     :param wait: Set to True, to insert a wait before a request; see https://api.scryfall.com/docs/api
@@ -44,9 +44,11 @@ def get_card_scry(parameters, wait=True):
     if wait:
         sleep(0.1)
     req = requests.get("https://api.scryfall.com/cards/named", params=parameters)
+    if verbose:
+        print("Query {}, Status {}.".format(req.url, req.status_code))
     if req.status_code == 200:
         response = req.json()
-        print("Receive response for: {}".format(response.get("name")))
+        print("Receive response for: {}, Eur: {}".format(response.get("name"), response.get("eur")))
         return response
     else:
         raise ValueError(req.text)

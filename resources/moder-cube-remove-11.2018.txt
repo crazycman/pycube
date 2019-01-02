@@ -1,163 +1,163 @@
-1 Abyssal Persecutor
-1 Adarkar Wastes
-1 Adorned Pouncer
-1 Aether Adept
-1 Ajani Goldmane
-1 Alesha, Who Smiles at Death
-1 Ambition's Cost
-1 Angel of Sanctions
-1 Angel of Serenity
-1 Anticipate
-1 Arc Trail
-1 Archangel of Thune
-1 Arlinn Kord
-1 Awakening Zone
-1 Azor's Gateway
-1 Azure Mage
-1 Banisher Priest
-1 Bant Charm
-1 Battlefield Forge
-1 Blasphemous Act
-1 Bloodgift Demon
-1 Bloom Tender
-1 Body Double
-1 Boggart Ram-Gang
-1 Boom // Bust
-1 Borderland Marauder
-1 Boros Reckoner
-1 Brain Maggot
-1 Brimstone Volley
-1 Brushland
-1 Bygone Bishop
-1 Canyon Slough
-1 Cascade Bluffs
-1 Cast Down
-1 Caves of Koilos
-1 Chandra's Phoenix
-1 Chandra, Pyromaster
-1 Chasm Skulker
-1 Clever Impersonator
-1 Coldsteel Heart
-1 Collective Effort
-1 Commit // Memory
-1 Cone of Flame
-1 Consuming Vapors
-1 Crypt Ghast
-1 Cryptbreaker
-1 Crystal Shard
-1 Dead // Gone
-1 Den Protector
-1 Despise
-1 Destructive Force
-1 Devour Flesh
-1 Dictate of Heliod
-1 Distended Mindbender
-1 Dragon Hunter
-1 Drana, Liberator of Malakir
-1 Dusk // Dawn
-1 Duskwatch Recruiter
-1 Earthquake
-1 Elder Deep-Fiend
-1 Etali, Primal Storm
-1 Exotic Orchard
-1 Explore
-1 Falkenrath Aristocrat
-1 Fauna Shaman
-1 Fetid Heath
-1 Fetid Pools
-1 Fleecemane Lion
-1 Flooded Grove
-1 Frost Lynx
-1 Gaze of Granite
-1 Ghalta, Primal Hunger
-1 Gideon's Lawkeeper
-1 Gore-House Chainwalker
-1 Grafted Wargear
-1 Grand Warlord Radha
-1 Grim Flayer
-1 Guul Draz Assassin
-1 Hanweir Militia Captain
-1 Hellrider
-1 Herald of Torment
-1 Hornet Nest
-1 Icy Manipulator
-1 Imposing Sovereign
-1 Imprisoned in the Moon
-1 Ink-Eyes, Servant of Oni
-1 Irrigated Farmland
-1 Kargan Dragonlord
-1 Karplusan Forest
-1 Knight of Meadowgrain
-1 Kor Hookmaster
-1 Lay Claim
-1 Lightning Mauler
-1 Lignify
-1 Linvala, the Preserver
-1 Llanowar Wastes
-1 Masked Admirers
-1 Mayor of Avabruck
-1 Mikaeus, the Lunarch
-1 Momentary Blink
-1 Nest Invader
-1 Oath of Nissa
-1 Obzedat, Ghost Council
-1 Odric, Lunarch Marshal
-1 Painful Truths
-1 Palladium Myr
-1 Panharmonicon
-1 Pia Nalaar
-1 Pitiless Horde
-1 Precursor Golem
-1 Prismatic Lens
-1 Prophetic Flamespeaker
-1 Puppeteer Clique
-1 Qasali Pridemage
-1 Ral Zarek
-1 Rift Bolt
-1 Rishkar, Peema Renegade
-1 Rugged Prairie
-1 Rune Snag
-1 Ruthless Ripper
-1 Scatter to the Winds
-1 Scattered Groves
-1 Seasons Past
-1 Selesnya Charm
-1 Sheltered Thicket
-1 Shivan Reef
-1 Shrine of Burning Rage
-1 Sidisi, Undead Vizier
-1 Siege Rhino
-1 Soldier of the Pantheon
-1 Spirit of the Labyrinth
-1 Sram's Expertise
-1 Staggershock
-1 Stoke the Flames
-1 Strangleroot Geist
-1 Stromkirk Noble
-1 Sulfurous Springs
-1 Sylvan Advocate
-1 Talrand, Sky Summoner
-1 Temporal Isolation
-1 Tetzimoc, Primal Death
-1 The Flame of Keld
-1 The Mirari Conjecture
-1 Thrashing Brontodon
-1 Through the Breach
-1 Tidings
-1 Tragic Slip
-1 Traverse the Ulvenwald
-1 Trygon Predator
-1 Twilight Mire
-1 Underground River
-1 Valorous Stance
-1 Vance's Blasting Cannons
-1 Vengevine
-1 Victim of Night
-1 Vivid Grove
-1 Vraska the Unseen
-1 Wake Thrasher
-1 Wall of Roots
-1 Warkite Marauder
-1 Wear // Tear
-1 Yahenni's Expertise
-1 Yavimaya Coast
+Abyssal Persecutor
+Adarkar Wastes
+Adorned Pouncer
+Aether Adept
+Ajani Goldmane
+Alesha, Who Smiles at Death
+Ambition's Cost
+Angel of Sanctions
+Angel of Serenity
+Anticipate
+Arc Trail
+Archangel of Thune
+Arlinn Kord
+Awakening Zone
+Azor's Gateway
+Azure Mage
+Banisher Priest
+Bant Charm
+Battlefield Forge
+Blasphemous Act
+Bloodgift Demon
+Bloom Tender
+Body Double
+Boggart Ram-Gang
+Boom // Bust
+Borderland Marauder
+Boros Reckoner
+Brain Maggot
+Brimstone Volley
+Brushland
+Bygone Bishop
+Canyon Slough
+Cascade Bluffs
+Cast Down
+Caves of Koilos
+Chandra's Phoenix
+Chandra, Pyromaster
+Chasm Skulker
+Clever Impersonator
+Coldsteel Heart
+Collective Effort
+Commit // Memory
+Cone of Flame
+Consuming Vapors
+Crypt Ghast
+Cryptbreaker
+Crystal Shard
+Dead // Gone
+Den Protector
+Despise
+Destructive Force
+Devour Flesh
+Dictate of Heliod
+Distended Mindbender
+Dragon Hunter
+Drana, Liberator of Malakir
+Dusk // Dawn
+Duskwatch Recruiter
+Earthquake
+Elder Deep-Fiend
+Etali, Primal Storm
+Exotic Orchard
+Explore
+Falkenrath Aristocrat
+Fauna Shaman
+Fetid Heath
+Fetid Pools
+Fleecemane Lion
+Flooded Grove
+Frost Lynx
+Gaze of Granite
+Ghalta, Primal Hunger
+Gideon's Lawkeeper
+Gore-House Chainwalker
+Grafted Wargear
+Grand Warlord Radha
+Grim Flayer
+Guul Draz Assassin
+Hanweir Militia Captain
+Hellrider
+Herald of Torment
+Hornet Nest
+Icy Manipulator
+Imposing Sovereign
+Imprisoned in the Moon
+Ink-Eyes, Servant of Oni
+Irrigated Farmland
+Kargan Dragonlord
+Karplusan Forest
+Knight of Meadowgrain
+Kor Hookmaster
+Lay Claim
+Lightning Mauler
+Lignify
+Linvala, the Preserver
+Llanowar Wastes
+Masked Admirers
+Mayor of Avabruck
+Mikaeus, the Lunarch
+Momentary Blink
+Nest Invader
+Oath of Nissa
+Obzedat, Ghost Council
+Odric, Lunarch Marshal
+Painful Truths
+Palladium Myr
+Panharmonicon
+Pia Nalaar
+Pitiless Horde
+Precursor Golem
+Prismatic Lens
+Prophetic Flamespeaker
+Puppeteer Clique
+Qasali Pridemage
+Ral Zarek
+Rift Bolt
+Rishkar, Peema Renegade
+Rugged Prairie
+Rune Snag
+Ruthless Ripper
+Scatter to the Winds
+Scattered Groves
+Seasons Past
+Selesnya Charm
+Sheltered Thicket
+Shivan Reef
+Shrine of Burning Rage
+Sidisi, Undead Vizier
+Siege Rhino
+Soldier of the Pantheon
+Spirit of the Labyrinth
+Sram's Expertise
+Staggershock
+Stoke the Flames
+Strangleroot Geist
+Stromkirk Noble
+Sulfurous Springs
+Sylvan Advocate
+Talrand, Sky Summoner
+Temporal Isolation
+Tetzimoc, Primal Death
+The Flame of Keld
+The Mirari Conjecture
+Thrashing Brontodon
+Through the Breach
+Tidings
+Tragic Slip
+Traverse the Ulvenwald
+Trygon Predator
+Twilight Mire
+Underground River
+Valorous Stance
+Vance's Blasting Cannons
+Vengevine
+Victim of Night
+Vivid Grove
+Vraska the Unseen
+Wake Thrasher
+Wall of Roots
+Warkite Marauder
+Wear // Tear
+Yahenni's Expertise
+Yavimaya Coast
