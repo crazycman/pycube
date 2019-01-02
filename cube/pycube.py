@@ -39,6 +39,7 @@ def get_card_scry(parameters, wait=True, verbose=False):
     Query the scryfall API for a specific card.
     :param wait: Set to True, to insert a wait before a request; see https://api.scryfall.com/docs/api
     :param parameters: Dict of request parameters
+    :param verbose: If set to True print query
     :return: Card as JSON (as returned by the scryfall API)
     """
     if wait:
@@ -65,6 +66,33 @@ def get_cards_scry(card_names: List[str]) -> list:
 def create_q_param(card_name: str) -> Dict[str, object]:
     card_info = map(lambda x: x.strip(), card_name.split(":"))
     return dict(zip(["fuzzy", "set"], card_info))
+
+
+def divide_into_cheap_expensive(threshold=2, card_list="resources/modern-cube.txt"):
+    """
+    Divide a list of cards into cheap and expensive ones w.r.t. to a given threshold (eur price)
+    :param threshold: Float max euro price that is still cheap
+    :param card_list: Path to a list of card names
+    :return: Tuple of (cheap_list, expensive_list) where both list are list of card names
+    """
+    cards = get_json_card_list(card_list)
+    cheap = []
+    expensive = []
+    for card in cards:
+        price = card.get('eur')
+        if price is not None:
+            if float(price) <= threshold:
+                cheap.append(card.get('name'))
+            else:
+                expensive.append(card.get('name'))
+    return (cheap, expensive)
+
+
+def cheap_expensive(card_lists, threshold=2):
+    for cards in card_lists:
+        (cheap, expensive) = divide_into_cheap_expensive(threshold, cards)
+        write_to_file(cards + '_cheap', '\n'.join(cheap))
+        write_to_file(cards + '_expensive', '\n'.join(expensive))
 
 
 # -----------------------------------------------------------------------------
