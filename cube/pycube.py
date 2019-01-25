@@ -57,13 +57,20 @@ def get_card_scry(parameters, wait=True, verbose=False):
 
 def get_cards_scry(card_names: List[str]) -> list:
     """
-    :param card_names: as list of strings.
+    :param card_names: list of strings (card names may be of the form Name : Set)
     :return: List of cards as JSON, can be saved
     """
     return list(map(get_card_scry, map(create_q_param, card_names)))
 
 
 def create_q_param(card_name: str) -> Dict[str, object]:
+    """
+    The syntax supported for card_names is:
+    Card Name : Set (abbreviation), e.g.
+    Cryptic Command : LRW
+    :param card_name: String
+    :return: Map usable in scryfall rest query.
+    """
     card_info = map(lambda x: x.strip(), card_name.split(":"))
     return dict(zip(["fuzzy", "set"], card_info))
 
@@ -88,7 +95,7 @@ def divide_into_cheap_expensive(threshold=2, card_list="resources/modern-cube.tx
     return (cheap, expensive)
 
 
-def cheap_expensive(card_lists, threshold=2):
+def dump_cheap_expensive(card_lists, threshold=2):
     for cards in card_lists:
         (cheap, expensive) = divide_into_cheap_expensive(threshold, cards)
         write_to_file(cards + '_cheap', '\n'.join(cheap))
@@ -213,11 +220,7 @@ def concat(xs):
 
 def read_cards_file(file):
     """
-    The syntax supported in the card list is:
-    Card Name : Set (abbreviation), e.g.
-    Cryptic Command : LRW
-    see function 'create_q_param' above.
-    :param file:
+    :param file: Path to file
     :return: File contents as string
     """
     contents = open(file).read()  # type: str
@@ -228,3 +231,10 @@ def read_cards_file(file):
 def write_to_file(file, content):
     with open(file, 'w') as the_file:
         the_file.write(content)
+
+
+def file_to_list(file):
+    with open(file) as f:
+        content = f.readlines()
+    content = [x.strip() for x in content]
+    return content
