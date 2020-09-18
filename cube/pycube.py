@@ -7,7 +7,9 @@ import json
 import functools
 
 
-def save_json_card_list(file, card_list="resources/some-cards.txt"):
+def save_json_card_list(
+        file="resources/modern-cube-add-2019-07-m20.json",
+        card_list="resources/modern-cube-add-2019-07-m20.txt"):
     """
     Query the srcyfall API for a list of cards and
     save the returned list of (formatted) JSON card descriptions in a file.
@@ -18,7 +20,7 @@ def save_json_card_list(file, card_list="resources/some-cards.txt"):
     write_to_file(file, get_json_card_list_formatted(card_list))
 
 
-def get_json_card_list_formatted(card_list="resources/some-cards.txt"):
+def get_json_card_list_formatted(card_list="resources/modern-cube-add-2019-07.txt"):
     card_list = get_json_card_list(card_list)
     return json.dumps(card_list, indent=2)
 
@@ -156,7 +158,7 @@ def get_card_names(cards):
 # Download card images
 
 
-def download_card_imgs(save_path="resources/pics/", wait=True):
+def download_card_imgs(save_path="resources/pics/2019-07", wait=True):
     """
     Call this procedure to download all the images of cards that have image URIS in the JSON file.
     :param save_path: Path to store the pictures
@@ -171,7 +173,7 @@ def download_card_imgs(save_path="resources/pics/", wait=True):
         download_card_img(name, url, save_path)
 
 
-def card_img_uri(card, img_type="art_crop") -> List[Tuple[str, str]]:
+def card_img_uri(card, img_type="png") -> List[Tuple[str, str]]:
     """
     Given a card (as JSON) return a list of tuples with the card names and image URIs.
     List are returned because of of flip and split cards.
@@ -203,7 +205,7 @@ def download_card_img(name, url, save_path="resources/pics/"):
 # General helper functions
 # TODO move them to a general module
 
-def decode_json_file(file="resources/modern-cube.json"):
+def decode_json_file(file="resources/modern-cube-add-2019-07-m20.json"):
     """
     Given a path to a JSON file, load the file and decode it.
     :param file: Path to JSON file that contains cards
